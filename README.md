@@ -41,6 +41,6 @@ Pastikan program pada ESP32 Anda sudah berjalan dan modul tersebut sudah terhubu
 Alamat IP ESP32 yang Anda masukkan di file .env harus merupakan alamat IP yang benar dan dapat diakses dari komputer yang menjalankan server Flask ini.
 Anda biasanya dapat melihat alamat IP ini di Serial Monitor Arduino IDE saat ESP32 pertama kali terhubung ke Wi-Fi.
 
-#run kode flask
+# run kode flask
 klik (open) pada alamat yang tercantum pada console
 untuk stop gunakan "Ctrl + C"
