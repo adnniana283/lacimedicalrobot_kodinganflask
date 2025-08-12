@@ -43,3 +43,4 @@ Anda biasanya dapat melihat alamat IP ini di Serial Monitor Arduino IDE saat ESP
 
 #run kode flask
 klik (open) pada alamat yang tercantum pada console
+untuk stop gunakan "Ctrl + C"
