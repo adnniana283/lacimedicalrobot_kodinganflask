@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pengambilan Foto</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background-color: #f2f9fa;
+        padding-top: 30px;
+      }
+      img {
+        border: 4px solid #2d7d7b;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+      .btn {
+        margin-top: 30px;
+        padding: 12px 24px;
+        background-color: #2d7d7b;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        text-decoration: none;
+      }
+      .btn:hover {
+        background-color: #256a68;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>📸 Ambil Foto untuk {{ name_prefix }} ({{ patient_id }})</h2>
+    <p>Jumlah Foto: {{ num_photos }}</p>
+
+    <img
+      src="/video_enroll?patient_id={{ patient_id }}&name_prefix={{ name_prefix }}&num_photos={{ num_photos }}"
+      width="600"
+      alt="Live Camera Feed"
+    />
+
+    <br />
+    <a class="btn" href="/" id="backButton" style="display: none"
+      >⬅️ Kembali ke Halaman Utama</a
+    >
+    <script>
+      const img = document.querySelector("img");
+      img.onload = function () {
+        // Cek jika gambar terakhir mengandung tulisan "Ambil Foto X/X"
+        const countMatch = img.src.match(/(\d+)\/(\d+)/);
+        if (countMatch && countMatch[1] === countMatch[2]) {
+          document.getElementById("backButton").style.display = "inline-block";
+        }
+      };
+    </script>
+  </body>
+</html>

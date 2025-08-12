@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nurse Station - Penjadwalan Misi MRA</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f4f4f9;
+        margin: 20px;
+      }
+      .container {
+        display: flex;
+        gap: 30px;
+      }
+      .form-container,
+      .schedule-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .form-container {
+        width: 400px;
+      }
+      .schedule-container {
+        flex-grow: 1;
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      label {
+        display: block;
+        margin: 15px 0 5px;
+        font-weight: bold;
+        color: #555;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #start-mission-btn {
+        background-color: #28a745;
+        width: 100%;
+      }
+      #start-mission-btn:hover {
+        background-color: #218838;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        background: #e9ecef;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+      }
+      #response-message {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <h1>Entri Jadwal Misi</h1>
+        <form id="task-form">
+          <label for="destination">Tujuan (Kamar):</label>
+          <input type="text" id="destination" name="destination" required />
+
+          <label for="subject_id">ID Subjek Pasien:</label>
+          <input type="text" id="subject_id" name="subject_id" required />
+
+          <button type="submit">Tambah ke Jadwal</button>
+        </form>
+      </div>
+      <div class="schedule-container">
+        <h2>Daftar Jadwal Misi</h2>
+        <ul id="schedule-list"></ul>
+        <button id="start-mission-btn">Mulai Misi</button>
+        <div id="response-message"></div>
+      </div>
+    </div>
+
+    <script>
+      const taskForm = document.getElementById("task-form");
+      const scheduleList = document.getElementById("schedule-list");
+      const startMissionBtn = document.getElementById("start-mission-btn");
+      const responseDiv = document.getElementById("response-message");
+
+      let missionPlan = []; // Array untuk menyimpan semua tugas
+
+      // Event listener untuk menambahkan tugas ke jadwal
+      taskForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const destination = document.getElementById("destination").value;
+        const subject_id = document.getElementById("subject_id").value;
+
+        // Tambahkan tugas ke array
+        missionPlan.push({ destination, subject_id });
+
+        // Tampilkan tugas di daftar
+        const listItem = document.createElement("li");
+        listItem.textContent = `Tujuan: ${destination}, Subjek: ${subject_id}`;
+        scheduleList.appendChild(listItem);
+
+        // Kosongkan form
+        taskForm.reset();
+      });
+
+      // Event listener untuk memulai misi
+      startMissionBtn.addEventListener("click", function () {
+        if (missionPlan.length === 0) {
+          responseDiv.textContent = "Error: Jadwal masih kosong.";
+          responseDiv.className = "error";
+          return;
+        }
+
+        // Kirim seluruh array jadwal ke backend
+        fetch("/start_mission", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(missionPlan),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            responseDiv.textContent = data.success
+              ? "Sukses: " + data.message
+              : "Error: " + data.message;
+            responseDiv.className = data.success ? "success" : "error";
+            // Kosongkan jadwal setelah misi dimulai
+            if (data.success) {
+              missionPlan = [];
+              scheduleList.innerHTML = "";
+            }
+          })
+          .catch((error) => {
+            responseDiv.textContent = "Error koneksi ke server.";
+            responseDiv.className = "error";
+          });
+      });
+    </script>
+  </body>
+</html>

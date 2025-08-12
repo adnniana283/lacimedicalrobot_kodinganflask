@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login PIN</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        padding-top: 100px;
+      }
+      input[type="password"] {
+        padding: 10px;
+        font-size: 1.2em;
+        width: 200px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 1.2em;
+        background-color: #2d7d7b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🔒 Masukkan PIN untuk Akses</h2>
+    <form method="POST">
+      <input type="password" name="pin" maxlength="10" required />
+      <br />
+      <button type="submit" class="btn">Masuk</button>
+      <p>
+        Belum punya akun?
+        <a href="{{ url_for('setup_pin') }}">Daftar di sini</a>
+      </p>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul>
+      {% for category, message in messages %}
+      <li style="color: red">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </body>
+</html>

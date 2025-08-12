@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pengambilan Foto</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background-color: #f2f9fa;
+        padding-top: 30px;
+      }
+      img {
+        border: 4px solid #2d7d7b;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+      .btn {
+        margin-top: 30px;
+        margin-right: 10px;
+        padding: 12px 24px;
+        background-color: #2d7d7b;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        text-decoration: none;
+      }
+      .btn:hover {
+        background-color: #256a68;
+      }
+    </style>
+  </head>
+  <script>
+    function stopCamera() {
+      fetch("/stop_enroll")
+        .then((response) => response.text())
+        .then((data) => {
+          alert("✅ Kamera dihentikan.");
+          const img = document.querySelector("img");
+          if (img) {
+            img.src = ""; // hentikan stream di sisi browser
+            img.alt = "Stream dihentikan";
+          }
+        })
+        .catch((error) => {
+          console.error("Error stopping camera:", error);
+          alert("Gagal menghentikan kamera.");
+        });
+    }
+  </script>
+
+  <body>
+    <h2>📸 Ambil Foto untuk {{ name_prefix }} ({{ patient_id }})</h2>
+    <p>Jumlah Foto: {{ num_photos }}</p>
+
+    <img
+      src="/video_enroll?patient_id={{ patient_id }}&name_prefix={{ name_prefix }}&num_photos={{ num_photos }}"
+      width="600"
+      alt="Live Camera Feed"
+    />
+
+    <br />
+    <a class="btn" href="/">⬅️ Kembali ke Halaman Utama</a>
+    <a class="btn" href="#" onclick="stopCamera()">⛔ Stop Kamera</a>
+  </body>
+</html>

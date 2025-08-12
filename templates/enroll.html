@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enroll Pasien Baru</title>
+  </head>
+  <body style="font-family: sans-serif; text-align: center; padding-top: 50px">
+    <h2>📷 Enroll Data Wajah Pasien</h2>
+    <form action="/enroll_camera" method="get">
+      <label>ID Pasien: <input type="text" name="patient_id" required /></label
+      ><br /><br />
+      <label
+        >Nama Pasien: <input type="text" name="name_prefix" required /></label
+      ><br /><br />
+      <label
+        >Jumlah Foto:
+        <input
+          type="number"
+          name="num_photos"
+          value="10"
+          min="1"
+          max="100"
+          required /></label
+      ><br /><br />
+      <button type="submit">Mulai Enroll</button>
+    </form>
+  </body>
+</html>

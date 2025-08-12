@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Laporan Metrik Jaringan</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      img {
+        width: 100%;
+        max-width: 800px;
+        display: block;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .download {
+        text-align: center;
+        margin-top: 30px;
+      }
+      .download a {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+      }
+      .download a:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Laporan Metrik Jaringan</h1>
+
+    <h2>Grafik Jitter</h2>
+    <img
+      src="{{ url_for('static', filename='jitter.png') }}"
+      alt="Jitter Grafik"
+    />
+
+    <h2>Grafik Throughput</h2>
+    <img
+      src="{{ url_for('static', filename='throughput.png') }}"
+      alt="Grafik Throughput"
+    />
+
+    <h2>Histogram Delay</h2>
+    <img
+      src="{{ url_for('static', filename='delay_histogram.png') }}"
+      alt="Histogram Delay"
+    />
+
+    <div class="download">
+      <a
+        href="{{ url_for('static', filename='network_report.pdf') }}"
+        target="_blank"
+        >📄 Download PDF Report</a
+      >
+    </div>
+  </body>
+</html>
